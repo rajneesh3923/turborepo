@@ -29,7 +29,7 @@ export function App({ children }: Readonly<{ children: React.ReactNode }>) {
     createTRPCClient<AppRouter>({
       links: [
         httpBatchLink({
-          url: "http://localhost:4000/trpc",
+          url: "http://turborepo2:4000/trpc",
         }),
       ],
     })
