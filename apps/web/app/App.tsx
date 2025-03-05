@@ -29,7 +29,8 @@ export function App({ children }: Readonly<{ children: React.ReactNode }>) {
     createTRPCClient<AppRouter>({
       links: [
         httpBatchLink({
-          url: "http://turborepo2:4001/trpc",
+          // url: "http://turborepo2:4001/trpc",
+          url: "https://urchin-app-8lsr5.ondigitalocean.app/turborepo2/trpc",
         }),
       ],
     })
