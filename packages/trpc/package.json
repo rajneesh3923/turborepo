@@ -1,0 +1,12 @@
+{
+  "name": "@repo/trpc",
+  "type": "module",
+  "exports": {
+    "./index.ts": {
+      "types": "./index.ts"
+    }
+  },
+  "devDependencies": {
+    "typescript": "latest"
+  }
+}

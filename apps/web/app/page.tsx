@@ -1,7 +1,11 @@
+"use client";
 import Image, { type ImageProps } from "next/image";
 import { Button } from "@repo/ui/button";
 import { Dialog } from "@repo/ui/dialog";
 import styles from "./page.module.css";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useTRPC } from "../utils/trpc";
+import Link from "next/link";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -20,6 +24,14 @@ const ThemeImage = (props: Props) => {
 };
 
 export default function Home() {
+  const trpc = useTRPC(); // use `import { trpc } from './utils/trpc'` if you're using the singleton pattern
+  const { data, error, isError } = useQuery({
+    queryKey: ["getUsers"],
+    queryFn: () => trpc.user,
+  });
+
+  console.log("TRPC DATA", data, error, isError);
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -87,11 +99,7 @@ export default function Home() {
           />
           Examples
         </a>
-        <a
-          href="https://turbo.build?utm_source=create-turbo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <Link href="/info" rel="noopener noreferrer">
           <Image
             aria-hidden
             src="/globe.svg"
@@ -99,8 +107,8 @@ export default function Home() {
             width={16}
             height={16}
           />
-          Go to turbo.build →
-        </a>
+          Info
+        </Link>
       </footer>
     </div>
   );
