@@ -1,8 +1,9 @@
 {
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
-    "declaration": true,
     "removeComments": true,
+    "declarationMap": false,
+    "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,

@@ -1,0 +1,11 @@
+.ant-picker
+  .ant-picker-large
+  .ant-picker-outlined
+  .ant-picker-status-error
+  .css-dev-only-do-not-override-14qglws {
+  border: "2px";
+}
+
+.ant-picker-dropdown {
+  z-index: 100000;
+}

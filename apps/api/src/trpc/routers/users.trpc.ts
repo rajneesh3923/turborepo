@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { TrpcService } from '../trpc.service';
+import { TrpcInitService } from '../trpc-init.service';
 
 @Injectable()
 export class UsersTrpcService {
-  constructor(private readonly trpcService: TrpcService) {}
-  usersRouter = this.trpcService.t.router({
-    getUsers: this.trpcService.t.procedure.query(() => {
+  constructor(private readonly trpcInitService: TrpcInitService) {}
+  usersRouter = this.trpcInitService.t.router({
+    getUsers: this.trpcInitService.publicProcedure.query(() => {
       return [
         { id: 1, name: 'Alice' },
         { id: 2, name: 'Bob' },

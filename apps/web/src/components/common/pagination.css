@@ -1,0 +1,45 @@
+/* Pagination Container */
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+/* Page Item */
+.page-item {
+  margin: 0 5px;
+}
+
+/* Link Styling */
+.page-link {
+  padding: 8px 12px;
+  user-select: none;
+  text-decoration: none;
+  color: var(--chakra-colors-gray-700);
+  border: 1px solid var(--chakra-colors-primary-100);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+/* Hover Effect */
+.page-link:hover {
+  background-color: var(--chakra-colors-primary-100);
+}
+
+/* Active Page */
+.active .page-link {
+  background-color: var(--chakra-colors-primary-500);
+  color: white;
+  border-color: var(--chakra-colors-primary-400);
+}
+
+/* Disabled Links */
+.disabled .page-link {
+  color: #6c757d;
+  cursor: not-allowed;
+  background-color: #f1f1f1;
+}

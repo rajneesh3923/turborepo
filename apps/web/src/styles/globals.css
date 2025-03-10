@@ -1,0 +1,55 @@
+/* src/styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.login_bg {
+  background-image: url('/images/header-bg1.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero_bg {
+  background-image: url('/images/header-bg1.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+@keyframes verticalBounce {
+  0%, 100% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+.animate-vertical-bounce {
+  animation: verticalBounce 3s infinite;
+}
