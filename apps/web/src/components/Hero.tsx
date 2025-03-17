@@ -16,8 +16,8 @@ import {
   HStack,
   Spinner,
 } from "@chakra-ui/react";
-import FlightRequestForm from "@/components/FlightRequestForm";
-import SuccessModal from "@/components/common/SuccessModal";
+import FlightRequestForm from "frontend/components/FlightRequestForm";
+import SuccessModal from "frontend/components/common/SuccessModal";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function Hero() {
@@ -27,8 +27,7 @@ export default function Hero() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const router = useRouter();
-  
-  
+
   const handleRequestSubmit = () => {
     setIsLoading(true);
     setIsSuccess(false);
@@ -38,9 +37,6 @@ export default function Hero() {
     setIsLoading(false);
     setIsSuccess(true);
     setShowSuccessModal(true);
-    
-   
-  
   };
 
   const handleSuccessModalClose = () => {
@@ -48,8 +44,6 @@ export default function Hero() {
     setIsSuccess(false);
     onClose();
   };
-
-
 
   return (
     <div className=" mt-32 mx-24  flex w-full   ">
@@ -99,29 +93,31 @@ export default function Hero() {
                 p: 4, // Custom padding
                 transition: "transform 0.3s ease, opacity 0.3s ease", // Smooth transition effects
                 maxHeight: "90vh", // Maximum height for the modal
-                display: isSuccess?"none" : "block",
+                display: isSuccess ? "none" : "block",
                 overflowY: "auto", // Enable scrolling if content overflows
                 maxWidth: "90vw", // Adjust max width for responsiveness
                 width: "800px", // Set a specific width
               }}
             >
               <ModalBody>
-              {isSuccess ? (
+                {isSuccess ? (
                   // <div className="text-center text-green-500">
                   //   Request Submitted Successfully!
                   // </div> // Display success message
-                  <SuccessModal onClose={handleSuccessModalClose}  isOpen={showSuccessModal} />
-
+                  <SuccessModal
+                    onClose={handleSuccessModalClose}
+                    isOpen={showSuccessModal}
+                  />
                 ) : (
-                  <FlightRequestForm  
-                  onloading = {handleRequestSubmit}
-                  onSuccess={handleSuccess}
+                  <FlightRequestForm
+                    onloading={handleRequestSubmit}
+                    onSuccess={handleSuccess}
                   /> // Pass the submit handler
                 )}
               </ModalBody>
 
               <ModalFooter>
-              {!isSuccess && (
+                {!isSuccess && (
                   <HStack justify="space-between" width="100%">
                     <Button variant="outline" onClick={onClose} size="sm">
                       Cancel
@@ -134,7 +130,7 @@ export default function Hero() {
                       // onClick={handleRequestSubmit}
                       disabled={isLoading}
                       cursor={isLoading ? "not-allowed" : "pointer"} // Ensure cursor is "not-allowed" when loading
-                      opacity={isLoading ? 0.6 : 1} 
+                      opacity={isLoading ? 0.6 : 1}
                       onClick={(e) => {
                         if (isLoading) {
                           e.preventDefault(); // Prevent form submission when loading
@@ -151,8 +147,11 @@ export default function Hero() {
           </Modal>
 
           {/* Transparent button with border */}
-          <button className="px-6 py-2 border border-indigo-600 text-indigo-600 font-semibold rounded hover:bg-blue-100 transition duration-200"
-          onClick={() => {router.push("/become-agent")} }
+          <button
+            className="px-6 py-2 border border-indigo-600 text-indigo-600 font-semibold rounded hover:bg-blue-100 transition duration-200"
+            onClick={() => {
+              router.push("/become-agent");
+            }}
           >
             Become an Agent
           </button>

@@ -7,7 +7,7 @@ import {
   FormControl,
   useToken,
 } from "@chakra-ui/react";
-import airportsData from "../../utils/airports";
+import { airports as airportsData } from "../../utils/airports";
 import { FieldError } from "react-hook-form";
 import debounce from "lodash.debounce";
 

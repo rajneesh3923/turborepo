@@ -1,4 +1,4 @@
-import { queryClient } from "@/utils/query";
+import { queryClient } from "frontend/utils/query";
 import { Button, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import { MdErrorOutline } from "react-icons/md";

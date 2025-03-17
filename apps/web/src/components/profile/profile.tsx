@@ -23,8 +23,8 @@ import {
 import { EditIcon, CheckIcon, DeleteIcon } from "@chakra-ui/icons";
 import { FiUser, FiMapPin, FiCreditCard, FiSettings } from "react-icons/fi";
 import React from "react";
-import { createClient } from "@/utils/supabase/client";
-import CustomModal from "@/components/common/Modal";
+import { createClient } from "frontend/utils/supabase/client";
+import CustomModal from "frontend/components/common/Modal";
 import { User } from "@supabase/supabase-js";
 
 interface ProfileModalProps {

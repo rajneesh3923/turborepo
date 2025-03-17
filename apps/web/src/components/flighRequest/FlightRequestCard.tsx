@@ -16,9 +16,9 @@ import CustomModal from "../common/Modal";
 import FlighQuotation from "../flightQuotation/FlightQuotation";
 
 import { usePathname, useRouter } from "next/navigation";
-import { FlightRequestRow } from "@/app/client/db/flightRequest";
+import { FlightRequestRow } from "frontend/app/client/db/flightRequest";
 import dayjs from "dayjs";
-import { userRole } from "@/app/client/db/user";
+import { userRole } from "frontend/app/client/db/user";
 
 interface FlightRequestCardProps {
   showActionButtons?: boolean;

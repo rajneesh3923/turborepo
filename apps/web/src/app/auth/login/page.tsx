@@ -1,4 +1,4 @@
-import LoginForm from "@/components/LoginForm";
+import LoginForm from "frontend/components/LoginForm";
 import { login } from "./actions";
 
 export default function Login() {

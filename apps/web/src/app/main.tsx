@@ -1,17 +1,19 @@
 "use client";
 
 import React, { ReactNode, useState } from "react";
+import { createTRPCContext } from "@trpc/tanstack-react-query";
 import * as Ably from "ably";
 import { AblyProvider, ChannelProvider } from "ably/react";
-import { QueryClientProvider } from "@tanstack/react-query";
-import TravelHeader from "@/components/Header";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import TravelHeader from "frontend/components/Header";
 import { usePathname } from "next/navigation";
-import Footer from "@/components/Footer";
-import { queryClient } from "@/utils/query";
+import Footer from "../components/Footer";
 import { User } from "@supabase/supabase-js";
-import { trpc } from "../utils/trpc";
-import { httpBatchLink } from "@trpc/client";
-import { createClient } from "@/utils/supabase/client";
+import { AppRouter } from "@repo/trpc";
+import { createTRPCClient, httpBatchLink } from "@trpc/client";
+import { createClient } from "../utils/supabase/client";
+import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query";
+import { TRPCProvider } from "../../utils/trpc";
 
 const client = new Ably.Realtime({
   key: "f18MvA.z8TGKA:AxuD_b4V8vqMkRjpl1K9_535vpylTNMBpKrFFJLmTD4",
@@ -29,6 +31,32 @@ const getAuthToken = async () => {
   return session?.access_token;
 };
 
+function makeQueryClient() {
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        // With SSR, we usually want to set some default staleTime
+        // above 0 to avoid refetching immediately on the client
+        staleTime: 60 * 1000,
+      },
+    },
+  });
+}
+let browserQueryClient: QueryClient | undefined = undefined;
+function getQueryClient() {
+  if (typeof window === "undefined") {
+    // Server: always make a new query client
+    return makeQueryClient();
+  } else {
+    // Browser: make a new query client if we don't already have one
+    // This is very important, so we don't re-make a new client if React
+    // suspends during the initial render. This may not be needed if we
+    // have a suspense boundary BELOW the creation of the query client
+    if (!browserQueryClient) browserQueryClient = makeQueryClient();
+    return browserQueryClient;
+  }
+}
+
 export default function Main({
   children,
   user,
@@ -37,13 +65,12 @@ export default function Main({
   user: User;
 }) {
   const pathname = usePathname();
-
+  const queryClient = getQueryClient();
   const [trpcClient] = useState(() =>
-    trpc.createClient({
+    createTRPCClient<AppRouter>({
       links: [
         httpBatchLink({
           url: "http://localhost:4000/trpc",
-          // You can pass any HTTP headers you wish here
           async headers() {
             return {
               authorization: await getAuthToken(),
@@ -54,10 +81,15 @@ export default function Main({
     })
   );
 
+  const trpc = createTRPCOptionsProxy<AppRouter>({
+    client: trpcClient,
+    queryClient,
+  });
+
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <AblyProvider client={client}>
-        <QueryClientProvider client={queryClient}>
+    <AblyProvider client={client}>
+      <QueryClientProvider client={queryClient}>
+        <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
           {!pathname.includes("/dashboard") &&
             !pathname.includes("/become-agent") && <TravelHeader user={user} />}
           <ChannelProvider channelName={`notifications:${user?.email}`}>
@@ -65,8 +97,8 @@ export default function Main({
           </ChannelProvider>
           {!pathname.includes("/dashboard") &&
             !pathname.includes("/become-agent") && <Footer />}
-        </QueryClientProvider>
-      </AblyProvider>
-    </trpc.Provider>
+        </TRPCProvider>
+      </QueryClientProvider>
+    </AblyProvider>
   );
 }

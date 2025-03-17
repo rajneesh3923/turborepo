@@ -1,9 +1,11 @@
 "use client";
 
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "frontend/utils/supabase/client";
 import { useEffect } from "react";
-import Hero from "@/components/Hero";
-import Quotation from "@/components/flight/quotation";
+import Hero from "frontend/components/Hero";
+import Quotation from "frontend/components/flight/quotation";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useTRPC } from "../../utils/trpc";
 
 const props = {
   agentName: "Wizard Travelers",

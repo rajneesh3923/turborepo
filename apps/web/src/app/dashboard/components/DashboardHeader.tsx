@@ -14,7 +14,7 @@ import {
 import React from "react";
 import { IoSearch } from "react-icons/io5";
 import ProfileModal from "../../../components/profile/profile";
-import { useUser } from "@/app/hooks/useUser";
+import { useUser } from "frontend/app/hooks/useUser";
 import Notifications from "./Notifications";
 import { User } from "@supabase/supabase-js";
 

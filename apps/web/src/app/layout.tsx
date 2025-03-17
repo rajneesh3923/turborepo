@@ -4,11 +4,10 @@ import { ChakraProvider } from "@chakra-ui/react";
 import "../styles/globals.css";
 import Main from "./main";
 import { ReactNode } from "react";
-import { theme } from "@/app/theme/theme";
+import { theme } from "frontend/app/theme/theme";
 import "animate.css";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "frontend/utils/supabase/server";
 import { User } from "@supabase/supabase-js";
-import { trpc } from "@/utils/trpc";
 
 const openSans = Nunito({ subsets: ["cyrillic"] });
 

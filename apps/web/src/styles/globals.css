@@ -28,21 +28,22 @@ body {
 }
 
 .login_bg {
-  background-image: url('/images/header-bg1.png');
+  background-image: url("/images/header-bg1.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
 .hero_bg {
-  background-image: url('/images/header-bg1.png');
+  background-image: url("/images/header-bg1.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
 @keyframes verticalBounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(-10px);
   }
   50% {

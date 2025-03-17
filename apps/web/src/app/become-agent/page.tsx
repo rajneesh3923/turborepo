@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   VStack,
   HStack,
@@ -20,9 +20,9 @@ import { z } from "zod";
 import { CheckIcon } from "@chakra-ui/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { createApiClient } from "@/utils/axios";
-import { useRouter } from 'next/navigation';
-import SuccessModal from '@/components/common/SuccessModal'
+import { createApiClient } from "frontend/utils/axios";
+import { useRouter } from "next/navigation";
+import SuccessModal from "frontend/components/common/SuccessModal";
 
 const GeneralInfoSchema = z.object({
   agent_name: z.string().min(1, "Agent Name is required"),
@@ -45,7 +45,10 @@ const PersonalInfoSchema = z.object({
     .string()
     .min(10, "PAN Number must be 10 characters")
     .max(10, "PAN Number must be 10 characters")
-    .regex(/^[A-Z0-9]+$/, "PAN Number must contain uppercase letters and digits"),
+    .regex(
+      /^[A-Z0-9]+$/,
+      "PAN Number must contain uppercase letters and digits"
+    ),
   address: z.string().min(1, "Address is required"),
   aadhar_image: z.string().min(1, "Aadhar image is required"),
   pan_image: z.string().min(1, "PAN image is required"),
@@ -53,38 +56,47 @@ const PersonalInfoSchema = z.object({
 });
 
 const PaymentInfoSchema = z.object({
-  primary_payment: z.object({
-    option: z.enum(["bank_transfer", "upi"], {
-      errorMap: () => ({ message: "Primary payment option is required" }),
-    }),
-    upi_id: z.string().optional(),
-    account_holder: z.string().optional(),
-    bank_account_number: z.string().optional(),
-    ifsc_code: z.string().optional(),
-  }).refine(
-    (data) =>
-      data.option === "upi" ? data.upi_id !== "" : (data.account_holder && data.bank_account_number && data.ifsc_code),
-    {
-      message: "Complete primary payment information is required based on the selected option",
-    }
-  ),
-  secondary_payment: z.object({
-    option: z.enum(["bank_transfer", "upi"], {
-      errorMap: () => ({ message: "Secondary payment option is required" }),
-    }),
-    upi_id: z.string().optional(),
-    account_holder: z.string().optional(),
-    bank_account_number: z.string().optional(),
-    ifsc_code: z.string().optional(),
-  }).refine(
-    (data) =>
-      data.option === "upi" ? data.upi_id !== "" : (data.account_holder && data.bank_account_number && data.ifsc_code),
-    {
-      message: "Complete secondary payment information is required based on the selected option",
-    }
-  ),
+  primary_payment: z
+    .object({
+      option: z.enum(["bank_transfer", "upi"], {
+        errorMap: () => ({ message: "Primary payment option is required" }),
+      }),
+      upi_id: z.string().optional(),
+      account_holder: z.string().optional(),
+      bank_account_number: z.string().optional(),
+      ifsc_code: z.string().optional(),
+    })
+    .refine(
+      (data) =>
+        data.option === "upi"
+          ? data.upi_id !== ""
+          : data.account_holder && data.bank_account_number && data.ifsc_code,
+      {
+        message:
+          "Complete primary payment information is required based on the selected option",
+      }
+    ),
+  secondary_payment: z
+    .object({
+      option: z.enum(["bank_transfer", "upi"], {
+        errorMap: () => ({ message: "Secondary payment option is required" }),
+      }),
+      upi_id: z.string().optional(),
+      account_holder: z.string().optional(),
+      bank_account_number: z.string().optional(),
+      ifsc_code: z.string().optional(),
+    })
+    .refine(
+      (data) =>
+        data.option === "upi"
+          ? data.upi_id !== ""
+          : data.account_holder && data.bank_account_number && data.ifsc_code,
+      {
+        message:
+          "Complete secondary payment information is required based on the selected option",
+      }
+    ),
 });
-
 
 const BecomeAgentSchema = z.object({
   ...GeneralInfoSchema.shape,
@@ -128,29 +140,27 @@ export default function BecomeAgent() {
       },
     },
   });
-  
+
   const router = useRouter();
   const [step, setStep] = useState(0); // Track the current step
   const [completedSteps, setCompletedSteps] = useState<number[]>([]); // Track completed steps
   const [isMounted, setIsMounted] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [ AgentError , setAgentError] = useState<string | null>(null);
-  
+  const [AgentError, setAgentError] = useState<string | null>(null);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
+
   const handleSuccessModalClose = () => {
     setShowSuccessModal(false);
-    
+
     onClose();
   };
 
   useEffect(() => {
     // Mark the component as mounted
     setIsMounted(true);
-    
   }, []);
-  
-  
+
   const validateStep = async () => {
     type BecomeAgentFields =
       | "agent_name"
@@ -194,59 +204,51 @@ export default function BecomeAgent() {
   };
 
   //  mutation for submitting the form data
-   
-  const mutation = useMutation({
-    mutationFn : async (data: BecomeAgentFormData ) => {
-      
-      const apiClient = await createApiClient();
-      const response = await apiClient.post("/agent-registration" , data )
-      return response.data;
 
+  const mutation = useMutation({
+    mutationFn: async (data: BecomeAgentFormData) => {
+      const apiClient = await createApiClient();
+      const response = await apiClient.post("/agent-registration", data);
+      return response.data;
     },
-    onSuccess : () => {
+    onSuccess: () => {
       setTimeout(() => {
-        console.log("succeffully agent created")  // Show success message after 5 seconds
-        setShowSuccessModal(true);  
+        console.log("succeffully agent created"); // Show success message after 5 seconds
+        setShowSuccessModal(true);
         // if (isMounted) {
         //   router.push('/');
         // }
-
       }, 3000);
-
     },
-    onError: (error : any) => {
+    onError: (error: any) => {
       console.error("Error submitting flight request:", error);
       // Handling different types of errors
-    let errorMessage = "An unknown error occurred";  // Default error message
+      let errorMessage = "An unknown error occurred"; // Default error message
 
-    if (error.response && error.response.data) {
-      // If there's a response from the server with an error message
-      errorMessage = error.response.data.message || "Error occurred during submission";
-    } else if (error.message) {
-      // If error has a message property
-      errorMessage = error.message;
-    }
+      if (error.response && error.response.data) {
+        // If there's a response from the server with an error message
+        errorMessage =
+          error.response.data.message || "Error occurred during submission";
+      } else if (error.message) {
+        // If error has a message property
+        errorMessage = error.message;
+      }
 
-     // Set the error message in state
-     setAgentError(errorMessage);
-       
+      // Set the error message in state
+      setAgentError(errorMessage);
+
       // if (isMounted) {
       //   router.push('/auth/login');
       // }
-
     },
-
-  })
-
+  });
 
   const onSubmit = async (data: BecomeAgentFormData) => {
-    try{
-    console.log("Form submitted successfully:", data);
-    await mutation.mutateAsync(data);
-    }
-    catch(error){
+    try {
+      console.log("Form submitted successfully:", data);
+      await mutation.mutateAsync(data);
+    } catch (error) {
       console.error("Error during submission:", error);
-      
     }
   };
 
@@ -270,9 +272,10 @@ export default function BecomeAgent() {
       <Heading mb={8} textAlign="center" size="lg">
         Become an Agent
       </Heading>
-      <SuccessModal onClose={handleSuccessModalClose}  isOpen={showSuccessModal} /> 
-
-
+      <SuccessModal
+        onClose={handleSuccessModalClose}
+        isOpen={showSuccessModal}
+      />
 
       {/* Stepper */}
       <Flex align="center" justify="center" mb={8}>
@@ -293,8 +296,8 @@ export default function BecomeAgent() {
                   completedSteps.includes(index)
                     ? "white"
                     : step === index
-                    ? "teal.500"
-                    : "gray.500"
+                      ? "teal.500"
+                      : "gray.500"
                 }
                 w={8}
                 h={8}
@@ -338,14 +341,30 @@ export default function BecomeAgent() {
           width="100%"
         >
           {AgentError && (
-          <Text color="red.500" mb={4}>
-            {AgentError}
-          </Text>
-        )}
+            <Text color="red.500" mb={4}>
+              {AgentError}
+            </Text>
+          )}
 
-          {step === 0 && <GeneralInfo register={register} watch={watch} setValue={setValue} errors={errors} />}
-          {step === 1 && <PersonalInfo register={register} watch={watch} setValue={setValue} errors={errors} />}
-          {step === 2 && <PaymentInfo register={register} watch={watch} errors={errors} />}
+          {step === 0 && (
+            <GeneralInfo
+              register={register}
+              watch={watch}
+              setValue={setValue}
+              errors={errors}
+            />
+          )}
+          {step === 1 && (
+            <PersonalInfo
+              register={register}
+              watch={watch}
+              setValue={setValue}
+              errors={errors}
+            />
+          )}
+          {step === 2 && (
+            <PaymentInfo register={register} watch={watch} errors={errors} />
+          )}
 
           {/* Navigation Buttons */}
           <HStack justify="space-between" width="100%">
@@ -356,10 +375,7 @@ export default function BecomeAgent() {
             >
               Previous
             </Button>
-            <Button
-              colorScheme={buttonColorScheme}
-              onClick={nextStep}
-            >
+            <Button colorScheme={buttonColorScheme} onClick={nextStep}>
               {step === steps.length - 1 ? "Submit" : "Next"}
             </Button>
           </HStack>

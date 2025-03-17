@@ -1,4 +1,4 @@
-import Pagination from "@/components/common/Pagination";
+import Pagination from "frontend/components/common/Pagination";
 import { AxiosError } from "axios";
 import { ImLocation2 } from "react-icons/im";
 import {
@@ -25,15 +25,15 @@ import {
   FlightRequestEnum,
   FlightRequestRow,
   FlightRequestRowsWithPagination,
-} from "@/app/client/db/flightRequest";
-import CustomTable from "@/components/common/Table";
+} from "frontend/app/client/db/flightRequest";
+import CustomTable from "frontend/components/common/Table";
 import { usePathname, useRouter } from "next/navigation";
-import CustomDrawer from "@/components/common/Drawer";
-import FlightRequestQuotationForm from "@/components/flighRequest/FlightRequestQuotationForm";
-import { useUser } from "@/app/hooks/useUser";
+import CustomDrawer from "frontend/components/common/Drawer";
+import FlightRequestQuotationForm from "frontend/components/flighRequest/FlightRequestQuotationForm";
+import { useUser } from "frontend/app/hooks/useUser";
 import { userRole } from "../../../client/db/user";
 import dayjs from "dayjs";
-import FlightRequestCard from "@/components/flighRequest/FlightRequestCard";
+import FlightRequestCard from "frontend/components/flighRequest/FlightRequestCard";
 
 const columnHelper = createColumnHelper<FlightRequestRow>();
 

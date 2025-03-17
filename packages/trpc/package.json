@@ -8,5 +8,8 @@
   },
   "devDependencies": {
     "typescript": "latest"
+  },
+  "dependencies": {
+    "@trpc/tanstack-react-query": "11.0.0-rc.828"
   }
 }

@@ -1,7 +1,14 @@
 import React from "react";
-import { VStack, Select, FormControl, FormLabel, Box, Divider } from "@chakra-ui/react";
-import { UseFormRegister, FieldErrors, UseFormWatch } from "react-hook-form"; 
-import InputField from "@/components/forms/InputField";
+import {
+  VStack,
+  Select,
+  FormControl,
+  FormLabel,
+  Box,
+  Divider,
+} from "@chakra-ui/react";
+import { UseFormRegister, FieldErrors, UseFormWatch } from "react-hook-form";
+import InputField from "frontend/components/forms/InputField";
 
 // Define the structure of the payment form values
 interface PaymentFormValues {
@@ -24,28 +31,43 @@ interface PaymentFormValues {
 // Define the props for the PaymentInfo component
 interface PaymentInfoProps {
   register: UseFormRegister<PaymentFormValues>; // Use PaymentFormValues for type safety
-  errors: FieldErrors<PaymentFormValues>;       // Use the correct error structure
-  watch: UseFormWatch<PaymentFormValues>;       // Use the correct watch type
+  errors: FieldErrors<PaymentFormValues>; // Use the correct error structure
+  watch: UseFormWatch<PaymentFormValues>; // Use the correct watch type
 }
 
-const PaymentInfo: React.FC<PaymentInfoProps> = ({ register, errors, watch }) => {
+const PaymentInfo: React.FC<PaymentInfoProps> = ({
+  register,
+  errors,
+  watch,
+}) => {
   const secondaryPaymentOption = watch("secondary_payment.option");
   const primaryPaymentOption = watch("primary_payment.option");
 
   return (
     <VStack spacing={4} align="flex-start" width="100%">
-      <Box as="h3" fontWeight="bold" fontSize="xl" mb={5} mt={4} color="gray.700">
+      <Box
+        as="h3"
+        fontWeight="bold"
+        fontSize="xl"
+        mb={5}
+        mt={4}
+        color="gray.700"
+      >
         Payment Information
       </Box>
       <Divider borderColor="gray.300" mb="4px" />
 
       {/* Primary Payment Option */}
       <FormControl isInvalid={!!errors.primary_payment?.option}>
-        <FormLabel htmlFor="primary_payment_option">Primary Payment Option</FormLabel>
+        <FormLabel htmlFor="primary_payment_option">
+          Primary Payment Option
+        </FormLabel>
         <Select
           id="primary_payment_option"
           placeholder="Select primary payment option"
-          {...register("primary_payment.option", { required: "Primary payment option is required" })}
+          {...register("primary_payment.option", {
+            required: "Primary payment option is required",
+          })}
         >
           <option value="bank_transfer">Bank Transfer</option>
           <option value="upi">UPI</option>
@@ -98,11 +120,15 @@ const PaymentInfo: React.FC<PaymentInfoProps> = ({ register, errors, watch }) =>
 
       {/* Secondary Payment Option */}
       <FormControl isInvalid={!!errors.secondary_payment?.option}>
-        <FormLabel htmlFor="secondary_payment_option">Secondary Payment Option</FormLabel>
+        <FormLabel htmlFor="secondary_payment_option">
+          Secondary Payment Option
+        </FormLabel>
         <Select
           id="secondary_payment_option"
           placeholder="Select secondary payment option"
-          {...register("secondary_payment.option", { required: "Secondary payment option is required" })}
+          {...register("secondary_payment.option", {
+            required: "Secondary payment option is required",
+          })}
         >
           <option value="bank_transfer">Bank Transfer</option>
           <option value="upi">UPI</option>

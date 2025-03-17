@@ -6,7 +6,6 @@ import {
   FlightRequestRow,
   FlightRequestRowsWithPagination,
 } from "../db/flightRequest";
-import { trpc } from "@/utils/trpc";
 
 export const flightRequestQuery = createQueryKeys("flight-requests", {
   all: (page_size: number, page: number) => ({
@@ -18,14 +17,15 @@ export const flightRequestQuery = createQueryKeys("flight-requests", {
       // const data = await apiClient.get<FlightRequestRowsWithPagination>(
       //   `/flight-request?page=${page}&page_size=${page_size}`
       // );
+      return [];
 
-      return await trpc.flightRequests.getAllFlightRequests.query(
-        {
-          page,
-          page_size,
-        },
-        { context: {} }
-      );
+      // return await trpc.flightRequests.getAllFlightRequests.query(
+      //   {
+      //     page,
+      //     page_size,
+      //   },
+      //   { context: {} }
+      // );
     },
   }),
 

@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Button, Flex } from "@chakra-ui/react";
 import { Plane, Hotel, Package, Phone } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useUser } from "@/app/hooks/useUser";
-import { createClient } from "@/utils/supabase/client";
+import { useUser } from "frontend/app/hooks/useUser";
+import { createClient } from "frontend/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 
 interface userProps {

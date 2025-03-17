@@ -14,11 +14,17 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "frontend/utils/supabase/client";
 import { CheckIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { UseFormRegister, FieldErrors, FieldError , UseFormSetValue , UseFormWatch  } from "react-hook-form";
+import {
+  UseFormRegister,
+  FieldErrors,
+  FieldError,
+  UseFormSetValue,
+  UseFormWatch,
+} from "react-hook-form";
 
-import InputField from "@/components/forms/InputField"; // Importing your custom InputField component
+import InputField from "frontend/components/forms/InputField"; // Importing your custom InputField component
 
 interface GeneralInfoProps {
   register: UseFormRegister<any>; // Specify the type based on your form data
@@ -27,12 +33,16 @@ interface GeneralInfoProps {
   watch: UseFormWatch<any>; // For dynamic value watching
 }
 
-const GeneralInfo: React.FC<GeneralInfoProps> = ({ register, errors , setValue , watch }) => {
+const GeneralInfo: React.FC<GeneralInfoProps> = ({
+  register,
+  errors,
+  setValue,
+  watch,
+}) => {
   const [logo, setLogo] = useState<string | null>(null);
   const [logoPic, setLogoPic] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
-  
   const email = watch("email"); // Dynamically watch the "email" field
 
   const supabase = createClient();
@@ -42,7 +52,7 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({ register, errors , setValue ,
 
     try {
       setUploading(true);
-      
+
       const folderPath = `agent/${email}`;
       const filename = `${folderPath}/logo`;
 
@@ -63,8 +73,6 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({ register, errors , setValue ,
 
       // Update the form's "logo" field with the URL
       setValue("logo", publicURL);
-     
-
 
       console.log("Image uploaded successfully:", publicURL);
     } catch (error) {
@@ -76,7 +84,14 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({ register, errors , setValue ,
 
   return (
     <VStack spacing={4} align="flex-start" width="100%">
-      <Text as="h3" fontWeight="bold" fontSize="xl" mb={5} mt={4} color="gray.700">
+      <Text
+        as="h3"
+        fontWeight="bold"
+        fontSize="xl"
+        mb={5}
+        mt={4}
+        color="gray.700"
+      >
         General Information
       </Text>
 
@@ -85,74 +100,70 @@ const GeneralInfo: React.FC<GeneralInfoProps> = ({ register, errors , setValue ,
 
       {/* Agent Name and Agency Name in one line */}
       <HStack spacing={4} width="100%">
-      <Box width="100%" position="relative">
-        <InputField
-          label="Agent Name"
-          name="agent_name"
-          register={register}
-          // error={errors.agent_name as FieldError | undefined} // Pass FieldError object for validation messages
-          placeholder="Enter agent name"
-        />
-         
-         {errors.agent_name && (
-           <Text color="red.500" position="absolute" bottom="-15px" left="0">
-        {errors?.agent_name?.message}
-           </Text>
-          )}
-
-        </Box>
-        
         <Box width="100%" position="relative">
-        <InputField
-          label="Agency Name"
-          name="agency_name"
-          register={register}
-          // error={errors.agency_name as FieldError | undefined}
-          placeholder="Enter agency name"
-        />
-         
-         {errors.agency_name && (
-           <Text color="red.500" position="absolute" bottom="-15px" left="0">
-        {errors?.agency_name?.message}
-           </Text>
-          )}
+          <InputField
+            label="Agent Name"
+            name="agent_name"
+            register={register}
+            // error={errors.agent_name as FieldError | undefined} // Pass FieldError object for validation messages
+            placeholder="Enter agent name"
+          />
 
+          {errors.agent_name && (
+            <Text color="red.500" position="absolute" bottom="-15px" left="0">
+              {errors?.agent_name?.message}
+            </Text>
+          )}
+        </Box>
+
+        <Box width="100%" position="relative">
+          <InputField
+            label="Agency Name"
+            name="agency_name"
+            register={register}
+            // error={errors.agency_name as FieldError | undefined}
+            placeholder="Enter agency name"
+          />
+
+          {errors.agency_name && (
+            <Text color="red.500" position="absolute" bottom="-15px" left="0">
+              {errors?.agency_name?.message}
+            </Text>
+          )}
         </Box>
       </HStack>
 
       {/* Phone Number and Email ID in one line */}
       <HStack spacing={4} width="100%">
         <Box width="100%" position="relative">
-        <InputField
-          label="Phone Number"
-          name="phone_number"
-          type="tel"
-          register={register}
-          // error={errors.phone_number as FieldError | undefined}
-          placeholder="Enter phone number"
-        />
-         {errors.phone_number && (
-           <Text color="red.500" position="absolute" bottom="-15px" left="0">
-        {errors?.phone_number?.message}
-           </Text>
+          <InputField
+            label="Phone Number"
+            name="phone_number"
+            type="tel"
+            register={register}
+            // error={errors.phone_number as FieldError | undefined}
+            placeholder="Enter phone number"
+          />
+          {errors.phone_number && (
+            <Text color="red.500" position="absolute" bottom="-15px" left="0">
+              {errors?.phone_number?.message}
+            </Text>
           )}
-         
-         </Box>
+        </Box>
 
-        
-         <Box width="100%" position="relative">
-        <InputField
-          label="Email ID"
-          name="email"
-          type="email"
-          register={register}
-          // error={errors.email as FieldError | undefined}
-          placeholder="Enter email address"
-        />
-         {errors.email && (
-           <Text color="red.500" position="absolute" bottom="-15px" left="0">
-        {errors?.email?.message}
-           </Text>
+        <Box width="100%" position="relative">
+          <InputField
+            label="Email ID"
+            name="email"
+            type="email"
+            register={register}
+            // error={errors.email as FieldError | undefined}
+            placeholder="Enter email address"
+          />
+          {errors.email && (
+            <Text color="red.500" position="absolute" bottom="-15px" left="0">
+              {errors?.email?.message}
+            </Text>
           )}
         </Box>
       </HStack>

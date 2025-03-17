@@ -2,7 +2,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import React, { ReactNode } from "react";
 import DashboardHeader from "./components/DashboardHeader";
 import DashboardMenu from "./components/Menu";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "frontend/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Show } from "@chakra-ui/react";
 

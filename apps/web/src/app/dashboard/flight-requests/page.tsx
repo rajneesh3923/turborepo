@@ -3,13 +3,16 @@
 import { Box } from "@chakra-ui/react";
 import React, { useState } from "react";
 import FlightBookingRequestList from "./components/FlightBookingRequestList";
-import { FlightRequestRowsWithPagination } from "@/app/client/db/flightRequest";
-import { useFlightRequests } from "@/app/client/queries";
+// import { FlightRequestRowsWithPagination } from "frontend/app/client/db/flightRequest";
+// import { useFlightRequests } from "frontend/app/client/queries";
 import { PaginationState } from "@tanstack/react-table";
 import { useSearchParams } from "next/navigation";
+import { useTRPC } from "../../../../utils/trpc";
+import { useQuery } from "@tanstack/react-query";
 
 export default function FlightBookingRequestPage() {
   const searchParams = useSearchParams();
+  const trpc = useTRPC();
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: searchParams.get("page")
@@ -18,10 +21,17 @@ export default function FlightBookingRequestPage() {
     pageSize: 10,
   });
 
-  const queryRes = useFlightRequests<FlightRequestRowsWithPagination>({
-    page: +pagination.pageIndex + 1,
-    page_size: 10,
-  });
+  const queryRes = useQuery(
+    trpc.flightRequests.getAllFlightRequests.queryOptions({
+      page: +pagination.pageIndex + 1,
+      page_size: 10,
+    })
+  );
+  console.log("FLight requests", queryRes);
+  // const queryRes = useFlightRequests<FlightRequestRowsWithPagination>({
+  // page: +pagination.pageIndex + 1,
+  // page_size: 10,
+  // });
 
   return (
     <Box

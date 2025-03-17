@@ -1,4 +1,4 @@
-module.exports = [
+export const airports =  [
   {
     name: "Goroka ",
     city: "Goroka",

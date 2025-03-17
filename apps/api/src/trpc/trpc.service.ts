@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { UsersTrpcService } from './routers/users.trpc';
 import { TrpcInitService } from './trpc-init.service';
+import { FlightRequestTrpcRouter } from './routers/flight-request.router';
 
 @Injectable()
 export class TrpcService {
   constructor(
     private readonly trpcInitService: TrpcInitService,
-    private readonly usersTrpc: UsersTrpcService,
+    private readonly flightRequestsTrpcRouter: FlightRequestTrpcRouter,
   ) {}
 
   appRouter = this.trpcInitService.router({
-    user: this.usersTrpc.usersRouter,
+    flightRequests: this.flightRequestsTrpcRouter.flightRequestRouter,
   });
 }

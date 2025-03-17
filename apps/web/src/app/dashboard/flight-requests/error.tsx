@@ -1,6 +1,6 @@
 "use client"; // Error boundaries must be Client Components
 
-import NetworkError from "@/components/common/NetworkError";
+import NetworkError from "frontend/components/common/NetworkError";
 import { Box, Flex } from "@chakra-ui/react";
 import { AxiosError } from "axios";
 import { useEffect } from "react";

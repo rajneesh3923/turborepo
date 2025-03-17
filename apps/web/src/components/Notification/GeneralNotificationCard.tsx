@@ -1,7 +1,7 @@
 import {
   notificationRow,
   NotificationRow,
-} from "@/app/client/db/notifications";
+} from "frontend/app/client/db/notifications";
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import sanitize from "sanitize-html-react";

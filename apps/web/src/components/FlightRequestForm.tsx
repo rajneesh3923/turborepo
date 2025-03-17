@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { Button, VStack, Text, HStack, Checkbox , Box} from "@chakra-ui/react";
+import { Button, VStack, Text, HStack, Checkbox, Box } from "@chakra-ui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import InputField from "../components/forms/InputField";
 import SelectField from "../components/forms/SelectField";
@@ -9,8 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { createApiClient } from "../utils/axios";
-import AirportAutocomplete from "@/components/flight/AirportAutocomplete";
-import React, { useState , useEffect } from "react";
+import AirportAutocomplete from "frontend/components/flight/AirportAutocomplete";
+import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 
 // Define your Zod schema
@@ -44,7 +44,10 @@ const flightReqSchema = z.object({
 
 type FlightRequestInput = z.infer<typeof flightReqSchema>;
 
-const FlightRequestForm: React.FC<{  onloading: () => void; onSuccess: () => void; }> = ({ onloading , onSuccess }) => {
+const FlightRequestForm: React.FC<{
+  onloading: () => void;
+  onSuccess: () => void;
+}> = ({ onloading, onSuccess }) => {
   const {
     handleSubmit,
     register,
@@ -74,8 +77,6 @@ const FlightRequestForm: React.FC<{  onloading: () => void; onSuccess: () => voi
     if (isRoundTrip) {
       setValue("return_date", defaultReturnDate);
     }
-   
-  
   }, [isRoundTrip, setValue]);
 
   // Mutation for submitting the form data
@@ -90,7 +91,6 @@ const FlightRequestForm: React.FC<{  onloading: () => void; onSuccess: () => voi
       setTimeout(() => {
         onSuccess(); // Show success message after 5 seconds
       }, 3000);
-      
     },
     onError: (error) => {
       console.error("Error submitting flight request:", error);
@@ -114,8 +114,6 @@ const FlightRequestForm: React.FC<{  onloading: () => void; onSuccess: () => voi
     }
   };
 
-
-
   return (
     <form id="flight-request-form" onSubmit={handleSubmit(onSubmit)}>
       <VStack spacing={4} align="flex-start" width="100%">
@@ -126,49 +124,46 @@ const FlightRequestForm: React.FC<{  onloading: () => void; onSuccess: () => voi
         <HStack spacing={4} width="100%">
           {/* Departure City Autocomplete */}
           <Box width="100%" position="relative">
-          <AirportAutocomplete
-            label="Departure City"
-            name="departure_city"
-            value={fromStation || ""}
-            onChange={(value: string) =>
-              { setValue("departure_city", value , { shouldValidate: true })
+            <AirportAutocomplete
+              label="Departure City"
+              name="departure_city"
+              value={fromStation || ""}
+              onChange={(value: string) => {
+                setValue("departure_city", value, { shouldValidate: true });
                 // clearErrors("departure_city");
-              }
-              }
-            // error={errors.departure_city}
-            disabledOption={toStation}
-          />
-           {errors.departure_city && (
-           <Text color="red.500" position="absolute" bottom="-15px" left="0">
-        {errors.departure_city.message}
-           </Text>
-          )}
-         </Box>
+              }}
+              // error={errors.departure_city}
+              disabledOption={toStation}
+            />
+            {errors.departure_city && (
+              <Text color="red.500" position="absolute" bottom="-15px" left="0">
+                {errors.departure_city.message}
+              </Text>
+            )}
+          </Box>
 
           {/* Destination City Autocomplete */}
           <Box width="100%" position="relative">
-          <AirportAutocomplete
-            label="Destination City"
-            name="destination_city"
-            value={toStation || ""}
-            onChange={(value: string) =>
-              { setValue("destination_city", value  , { shouldValidate: true })
+            <AirportAutocomplete
+              label="Destination City"
+              name="destination_city"
+              value={toStation || ""}
+              onChange={(value: string) => {
+                setValue("destination_city", value, { shouldValidate: true });
                 // clearErrors("destination_city");
-              }
-              }
-            // error={errors.destination_city}
-            disabledOption={fromStation}
-           
-          />
-           {errors.destination_city && (
-          <Text color="red.500" position="absolute" bottom="-15px" left="0">
-           {errors.destination_city.message}
-         </Text>
-         )}
+              }}
+              // error={errors.destination_city}
+              disabledOption={fromStation}
+            />
+            {errors.destination_city && (
+              <Text color="red.500" position="absolute" bottom="-15px" left="0">
+                {errors.destination_city.message}
+              </Text>
+            )}
           </Box>
         </HStack>
         {/* Return Date */}
-        
+
         <InputField
           label="Travel Date"
           name="travel_date"
@@ -176,7 +171,6 @@ const FlightRequestForm: React.FC<{  onloading: () => void; onSuccess: () => voi
           register={register}
           error={errors.return_date} // Pass the entire FieldError object
         />
-        
 
         {/* Round Trip Checkbox */}
         <HStack spacing={2} align="center">
@@ -197,18 +191,17 @@ const FlightRequestForm: React.FC<{  onloading: () => void; onSuccess: () => voi
         <HStack spacing={4} mb="2rem" width="100%">
           {/* Number of Passengers */}
           <Box width="100%" position="relative">
-          <InputField
-            label="No. of Passengers"
-            name="num_passengers"
-            type="number"
-            register={register}
-           
-          />
-           {errors.num_passengers && (
-           <Text color="red.500" position="absolute" bottom="-15px" left="0">
-        {errors.num_passengers.message}
-           </Text>
-          )}
+            <InputField
+              label="No. of Passengers"
+              name="num_passengers"
+              type="number"
+              register={register}
+            />
+            {errors.num_passengers && (
+              <Text color="red.500" position="absolute" bottom="-15px" left="0">
+                {errors.num_passengers.message}
+              </Text>
+            )}
           </Box>
 
           {/* Class Type */}
@@ -228,7 +221,6 @@ const FlightRequestForm: React.FC<{  onloading: () => void; onSuccess: () => voi
             options={PreferedtimingEnum.options}
             error={errors.class_type} // Pass the FieldError object
           />
-          
         </HStack>
 
         {/* Status */}

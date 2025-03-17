@@ -6,7 +6,7 @@ import { PiAirplaneTakeoffLight } from "react-icons/pi";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoLogOut, IoLogOutOutline } from "react-icons/io5";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "frontend/utils/supabase/client";
 
 export default function DashboardMenu() {
   const router = useRouter();

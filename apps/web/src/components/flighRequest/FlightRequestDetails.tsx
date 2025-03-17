@@ -14,7 +14,7 @@ import React from "react";
 import { HiOutlineArrowLongRight } from "react-icons/hi2";
 import { MdLocationOn } from "react-icons/md";
 import Error from "../common/Error";
-import { useFlightRequestById } from "@/app/client/queries";
+import { useFlightRequestById } from "frontend/app/client/queries";
 
 export default function FlightRequestDetails({
   flightRequestId,

@@ -18,15 +18,15 @@ import { BellRingIcon } from "lucide-react";
 import { useChannel } from "ably/react";
 import { User } from "@supabase/supabase-js";
 import { useQuery } from "@tanstack/react-query";
-import { notificationsQuery } from "@/app/client/queries/notifications";
+import { notificationsQuery } from "frontend/app/client/queries/notifications";
 import { useEffect, useState } from "react";
-import QuotationNotificationCard from "@/components/Notification/QuotationNotificationCard";
-import GeneralNotificationCard from "@/components/Notification/GeneralNotificationCard";
+import QuotationNotificationCard from "frontend/components/Notification/QuotationNotificationCard";
+import GeneralNotificationCard from "frontend/components/Notification/GeneralNotificationCard";
 import {
   NotificationRow,
   notificationStatusEnum,
-} from "@/app/client/db/notifications";
-import Loading from "@/components/common/Loading";
+} from "frontend/app/client/db/notifications";
+import Loading from "frontend/components/common/Loading";
 
 export default function Notifications({ user }: { user: User }) {
   const [notficationsCount, setNotificationCount] = useState(0);

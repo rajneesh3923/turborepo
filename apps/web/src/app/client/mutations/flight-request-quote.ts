@@ -1,4 +1,4 @@
-import { createApiClient } from "@/utils/axios";
+import { createApiClient } from "frontend/utils/axios";
 import { useMutation } from "@tanstack/react-query";
 import {
   FlightRequestQuoteBody,

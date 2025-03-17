@@ -2,7 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { TrpcService } from './trpc.service';
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
-import { createContext } from './trpc-init.service';
+import { createContext } from './context/context';
 
 @Injectable()
 export class TrpcMiddleware implements NestMiddleware {

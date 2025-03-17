@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { TimePicker } from "antd";
-import InputField from "@/components/forms/InputField";
+import InputField from "frontend/components/forms/InputField";
 import { CircleX } from "lucide-react";
 import {
   Avatar,
@@ -27,7 +27,7 @@ import { HiOutlineArrowLongRight } from "react-icons/hi2";
 import dayjs from "dayjs";
 const format = "HH:mm";
 // import "./page.css";
-import { useCreateFlightRequestQuote } from "@/app/client/mutations/flight-request-quote";
+import { useCreateFlightRequestQuote } from "frontend/app/client/mutations/flight-request-quote";
 import { useParams } from "next/navigation";
 import { flightRequestQuoteBody } from "../../../client/db/flightRequestQuote";
 import { useToast } from "@chakra-ui/react";

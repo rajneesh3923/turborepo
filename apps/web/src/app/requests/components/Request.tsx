@@ -1,6 +1,6 @@
 "use client";
 
-import { flightRequestQuery } from "@/app/client/queries/flightRequest";
+import { flightRequestQuery } from "frontend/app/client/queries/flightRequest";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
@@ -14,7 +14,6 @@ export default function Request() {
   }
 
   if (data) {
-
     return <div></div>;
   }
 

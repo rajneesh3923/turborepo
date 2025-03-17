@@ -13,7 +13,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import InputField from "./forms/InputField";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "frontend/utils/supabase/client";
 import Link from "next/link";
 
 interface SignupFormInputs {
@@ -22,20 +22,22 @@ interface SignupFormInputs {
   confirmPassword: string;
 }
 
-const signUpFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6).max(16),
-  confirmPassword: z.string().min(6).max(16),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"], // Set error path to `confirmPassword`
-});
+const signUpFormSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(6).max(16),
+    confirmPassword: z.string().min(6).max(16),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"], // Set error path to `confirmPassword`
+  });
 
 interface SignupFormProps {
-  Signup : (formData : FormData ) => Promise<void>;
+  Signup: (formData: FormData) => Promise<void>;
 }
 
-const SignupForm: React.FC<SignupFormProps> = ({Signup }) => {
+const SignupForm: React.FC<SignupFormProps> = ({ Signup }) => {
   const {
     handleSubmit,
     register,
@@ -50,9 +52,7 @@ const SignupForm: React.FC<SignupFormProps> = ({Signup }) => {
     formData.append("password", data.password);
 
     await Signup(formData); // call server action via the prop
-  }
-
- 
+  };
 
   return (
     <VStack

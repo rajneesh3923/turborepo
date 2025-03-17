@@ -1,20 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { initTRPC, TRPCError } from '@trpc/server';
-import * as trpcExpress from '@trpc/server/adapters/express';
 import { SupabaseAuthUserPayload, AuthUser } from '@repo/types';
 import jwt from 'jsonwebtoken';
-
-export const createContext = (
-  opts: trpcExpress.CreateExpressContextOptions,
-) => {
-  // const session = await getSession({ req: opts.req });
-
-  return {
-    req: opts.req,
-    res: opts.res,
-    accessToken: null,
-  };
-};
+import { createContext } from './context/context';
 
 const verifyToken = (token: string): AuthUser => {
   const payload = <SupabaseAuthUserPayload>(
@@ -56,7 +44,7 @@ export class TrpcInitService {
     return next({
       ctx: {
         user: authUser,
-        acessToken: token,
+        accessToken: token,
       },
     });
   });

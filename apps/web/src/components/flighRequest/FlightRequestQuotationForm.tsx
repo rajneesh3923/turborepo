@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { TimePicker } from "antd";
-import InputField from "@/components/forms/InputField";
+import InputField from "frontend/components/forms/InputField";
 import { CircleX } from "lucide-react";
 import {
   Avatar,
@@ -28,21 +28,21 @@ import {
   useCreateFlightRequestQuote,
   useDeleteFlightRequestQuotation,
   useUpdateFlightRequestQuotation,
-} from "@/app/client/mutations/flight-request-quote";
+} from "frontend/app/client/mutations/flight-request-quote";
 import { useToast } from "@chakra-ui/react";
 import {
   FlightRequestQuotationRow,
   flightRequestQuoteBody,
   updateFlightRequestQuotationBody,
-} from "@/app/client/db/flightRequestQuote";
+} from "frontend/app/client/db/flightRequestQuote";
 import { useQuery } from "@tanstack/react-query";
-import { flightRequestQuery } from "@/app/client/queries/flightRequest";
+import { flightRequestQuery } from "frontend/app/client/queries/flightRequest";
 import Error from "../common/Error";
 import { useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
 const format = "HH:mm";
 import "./page.css";
-import { flightRequestQuotationQuery } from "@/app/client/queries/flightQuotation";
+import { flightRequestQuotationQuery } from "frontend/app/client/queries/flightQuotation";
 import FlightQuotationsList from "../flightQuotation/FlightQuotationsList";
 import Loading from "../common/Loading";
 import { User } from "@supabase/supabase-js";

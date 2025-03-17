@@ -6,8 +6,8 @@ import React, { useState } from "react";
 import FlightBookingRequestList from "../flight-requests/components/FlightBookingRequestList";
 import { PaginationState } from "@tanstack/react-table";
 import { useSearchParams } from "next/navigation";
-import { FlightRequestRowsWithPagination } from "@/app/client/db/flightRequest";
-import { useFlightRequestsWithQuotations } from "@/app/client/queries";
+import { FlightRequestRowsWithPagination } from "frontend/app/client/db/flightRequest";
+import { useFlightRequestsWithQuotations } from "frontend/app/client/queries";
 
 export default function FlightBookingRequestPage() {
   const searchParams = useSearchParams();
