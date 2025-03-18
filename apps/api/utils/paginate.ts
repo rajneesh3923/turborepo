@@ -1,4 +1,4 @@
-import { PaginationParams } from '../@types';
+import { PaginationParams } from '../types/pagination';
 
 export function paginate(params: PaginationParams) {
   const { page, page_size } = params;

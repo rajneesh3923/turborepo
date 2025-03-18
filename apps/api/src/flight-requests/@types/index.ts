@@ -7,13 +7,6 @@ export enum FlightRequestClass {
 
 export const FlightRequestClassEnum = z.enum(['Economy', 'Business']);
 
-export const paginationParamsSchema = z.object({
-  page_size: z.number(),
-  page: z.number(),
-});
-
-export type PaginationParams = z.infer<typeof paginationParamsSchema>;
-
 export const getflightRequestSchema = z.object({
   id: z.string(),
 });

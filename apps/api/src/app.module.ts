@@ -6,6 +6,7 @@ import { TrpcMiddleware } from './trpc/trpc.middleware';
 import { SupabaseModule } from './supabase/supabase.module';
 import { ConfigModule } from '@nestjs/config';
 import { FlightRequestsModule } from './flight-requests/flight-requests.module';
+import { FlightRequestQuotationModule } from './flight-request-quotation/flight-request-quotation.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { FlightRequestsModule } from './flight-requests/flight-requests.module';
     SupabaseModule,
     ConfigModule.forRoot(),
     FlightRequestsModule,
+    FlightRequestQuotationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

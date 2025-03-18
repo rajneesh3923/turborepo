@@ -4,13 +4,13 @@ import { UserRole } from '@repo/types';
 import {
   CreateFlightRequestSchema,
   DeleteFlightRequestSchema,
-  PaginationParams,
   UpdateFlightRequestSchema,
 } from './@types';
 import { TRPCError } from '@trpc/server';
 import { SupabaseService } from 'src/supabase/supabase.service';
-import { paginate } from './helpers/paginate';
 import { AuthContext } from 'src/trpc/context/interfaces';
+import { PaginationParams } from 'types/pagination';
+import { paginate } from 'utils/paginate';
 
 @Injectable()
 export class FlightRequestsService {

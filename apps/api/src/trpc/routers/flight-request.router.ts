@@ -4,10 +4,10 @@ import { FlightRequestsService } from 'src/flight-requests/flight-requests.servi
 import {
   createFlightRequestSchema,
   deleteFlightRequestSchema,
-  paginationParamsSchema,
   updateFlightRequestSchema,
 } from 'src/flight-requests/@types';
 import { z } from 'zod';
+import { paginationParamsSchema } from 'types/pagination';
 
 @Injectable()
 export class FlightRequestTrpcRouter {

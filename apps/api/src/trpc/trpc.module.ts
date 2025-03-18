@@ -4,10 +4,10 @@ import { UsersTrpcService } from './routers/users.trpc';
 import { TrpcInitService } from './trpc-init.service';
 import { FlightRequestTrpcRouter } from './routers/flight-request.router';
 import { FlightRequestsModule } from 'src/flight-requests/flight-requests.module';
-import { FlightRequestsService } from 'src/flight-requests/flight-requests.service';
+import { FlightRequestQuotationModule } from 'src/flight-request-quotation/flight-request-quotation.module';
 
 @Module({
-  imports: [FlightRequestsModule],
+  imports: [FlightRequestsModule, FlightRequestQuotationModule],
   providers: [
     TrpcService,
     TrpcInitService,
