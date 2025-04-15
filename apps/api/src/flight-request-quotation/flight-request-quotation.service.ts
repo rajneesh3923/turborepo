@@ -1,21 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { SupabaseService } from 'src/supabase/supabase.service';
-import { AuthContext } from 'src/trpc/context/interfaces';
-import { paginate } from 'utils/paginate';
+
 import {
   CreateFlightRequestQuotation,
   FlightRequestQuotationUpdate,
   GetQuotesByFlightRequestSchema,
 } from './@types';
+import { inferRouterOutputs } from '@trpc/server';
+import { SupabaseService } from 'supabase/supabase.service';
+import { AuthContext } from 'trpc/context/interfaces';
+import { AppRouter } from 'trpc/types';
+import { AblyRealtimeService } from 'ably-realtime/ably-realtime.service';
+import { paginate } from '../../utils/paginate';
 
 @Injectable()
 export class FlightRequestQuotationService {
-  constructor(private supabaseService: SupabaseService) {}
+  constructor(
+    private supabaseService: SupabaseService,
+    private ablyRealtime: AblyRealtimeService,
+  ) {}
 
   async getQuotationsByFlightRequest(
     authCtx: AuthContext,
     input: GetQuotesByFlightRequestSchema,
   ) {
+    type RouterOutput = inferRouterOutputs<AppRouter>;
+
+    type PostByIdOutput =
+      RouterOutput['flightRequests']['getAllFlightRequests'];
+
     const { flightReqId, paginationParams } = input;
     const { from } = paginate(paginationParams);
 
@@ -45,20 +57,21 @@ export class FlightRequestQuotationService {
     input: CreateFlightRequestQuotation,
     //TODO:check for array of inputs
   ) {
+    const ablyClient = this.ablyRealtime.createClient();
     const { data: flightReq, error: flighReqError } = await this.supabaseService
       .createClient(authCtx.accessToken)
       .from('flight_requests')
       .select('*, user:users(email,id,name)')
-      .eq('id', input[0].flight_request_id)
+      .eq('id', input.flight_request_id)
       .maybeSingle();
 
     if (flighReqError) {
       throw new Error('Flight Request not found');
     }
 
-    //    const channel = ably.channels.get(
-    //      `notifications:${flightReq?.user?.email}`,
-    //    );
+    const channel = ablyClient.channels.get(
+      `notifications:${flightReq?.user?.email}`,
+    );
 
     console.log('USERdddaa', flightReq);
 
@@ -77,7 +90,7 @@ export class FlightRequestQuotationService {
 
     const notification = {
       title: 'New quotation',
-      body: `<p><b>${flightReq?.user?.name}</b> sent you <b>${input.length} quotation for your <b>${flightReq?.departure_city}</b> - <b>${flightReq?.destination_city}</b> flight request</b></p>`,
+      body: `<p><b>${flightReq?.user?.name}</b> sent you ${flightReq?.departure_city}</b> - <b>${flightReq?.destination_city}</b> flight request</b></p>`,
       user_id: flightReq?.user_id as string,
       type: 'NEW_QUOTATION',
       flight_request_id: flightReq?.id,
@@ -96,11 +109,12 @@ export class FlightRequestQuotationService {
       throw new Error('Notification cannot be created');
     }
 
-    // const { data: count } = await supabase
-    //   .from("flight_requests")
-    //   .select("*", { count: "exact", head: true });
+    const { data: count } = await this.supabaseService
+      .createClient(authCtx.accessToken)
+      .from('flight_requests')
+      .select('*', { count: 'exact', head: true });
 
-    //    await channel.publish('new-quotation', notification);
+    await channel.publish('new-quotation', notification);
 
     return data;
   }
@@ -129,7 +143,7 @@ export class FlightRequestQuotationService {
 
   async deleteFlightRequestQuotation(
     authCtx: AuthContext,
-    input: {quotationId: string}
+    input: { quotationId: string },
   ) {
     const { data, error } = await this.supabaseService
       .createClient(authCtx.accessToken)

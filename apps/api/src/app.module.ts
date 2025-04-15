@@ -7,6 +7,8 @@ import { SupabaseModule } from './supabase/supabase.module';
 import { ConfigModule } from '@nestjs/config';
 import { FlightRequestsModule } from './flight-requests/flight-requests.module';
 import { FlightRequestQuotationModule } from './flight-request-quotation/flight-request-quotation.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { AblyRealtimeModule } from './ably-realtime/ably-realtime.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { FlightRequestQuotationModule } from './flight-request-quotation/flight-
     ConfigModule.forRoot(),
     FlightRequestsModule,
     FlightRequestQuotationModule,
+    NotificationsModule,
+    AblyRealtimeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

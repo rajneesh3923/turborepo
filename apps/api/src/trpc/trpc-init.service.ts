@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { initTRPC, TRPCError } from '@trpc/server';
 import { SupabaseAuthUserPayload, AuthUser } from '@repo/types';
 import jwt from 'jsonwebtoken';
-import { createContext } from './context/context';
+import { createContext } from './context/context.js';
+import * as superjson from 'superjson';
 
 const verifyToken = (token: string): AuthUser => {
   const payload = <SupabaseAuthUserPayload>(
@@ -19,7 +20,12 @@ export type Context = Awaited<ReturnType<typeof createContext>>;
 
 @Injectable()
 export class TrpcInitService {
-  t = initTRPC.context<Context>().create();
+  t = initTRPC.context<Context>().create({
+    transformer: superjson,
+    errorFormatter({ shape }) {
+      return shape;
+    },
+  });
   publicProcedure = this.t.procedure;
   authProcedure = this.publicProcedure.use((opts) => {
     const { next, ctx } = opts;

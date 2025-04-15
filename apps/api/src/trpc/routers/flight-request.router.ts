@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TrpcInitService } from '../trpc-init.service';
+import { TrpcInitService } from '../trpc-init.service.js';
 import { FlightRequestsService } from 'src/flight-requests/flight-requests.service';
 import {
   createFlightRequestSchema,
@@ -15,11 +15,11 @@ export class FlightRequestTrpcRouter {
     private readonly trpcInitService: TrpcInitService,
     private fightRequestSerice: FlightRequestsService,
   ) {}
-  flightRequestRouter = this.trpcInitService.t.router({
+  flightRequestRouter = this.trpcInitService.router({
     getAllFlightRequests: this.trpcInitService.authProcedure
       .input(paginationParamsSchema)
-      .query(({ ctx, input }) => {
-        return this.fightRequestSerice.getAllFlightRequests(ctx, input);
+      .query(async ({ ctx, input }) => {
+        return await this.fightRequestSerice.getAllFlightRequests(ctx, input);
       }),
 
     getFlightRequestsWithQuotations: this.trpcInitService.authProcedure

@@ -27,14 +27,22 @@ import {
   notificationStatusEnum,
 } from "frontend/app/client/db/notifications";
 import Loading from "frontend/components/common/Loading";
+import { useTRPC } from "../../../../utils/trpc";
 
 export default function Notifications({ user }: { user: User }) {
   const [notficationsCount, setNotificationCount] = useState(0);
+  const trpc = useTRPC();
 
   const { data, isLoading, isError, refetch } = useQuery(
-    notificationsQuery.all(10, 1)
+    trpc.notifications.getNotifications.queryOptions()
   );
-  const { data: notificationCount } = useQuery(notificationsQuery.count);
+
+  console.log("NOTIFICATIONS", data?.data);
+  const { data: notificationCount } = useQuery(
+    trpc.notifications.getNotificationsCount.queryOptions()
+  );
+
+  console.log("NOTIFICATIONS COUNT", notificationCount);
   const toast = useToast();
 
   // const { publish } = useChannel(`notifications:${user.email}`);

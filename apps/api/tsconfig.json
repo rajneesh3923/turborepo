@@ -1,23 +1,82 @@
+// {
+//   "extends": "@repo/typescript-config/base.json",
+//   "compilerOptions": {
+//     "removeComments": true,
+//     "declarationMap": false,
+//     "declaration": false,
+//     "emitDecoratorMetadata": true,
+//     "experimentalDecorators": true,
+//     "allowSyntheticDefaultImports": true,
+//     "target": "ES2022",
+//     "sourceMap": true,
+//     "outDir": "./dist",
+//     "baseUrl": "./",
+//     "incremental": true,
+//     "skipLibCheck": true,
+//     "strictNullChecks": true,
+//     "forceConsistentCasingInFileNames": true,
+//     "noImplicitAny": false,
+//     "strictBindCallApply": false,
+//     "noFallthroughCasesInSwitch": false,
+//     "useDefineForClassFields": false
+//   }
+// }
+
+// {
+//   "extends": "@repo/typescript-config/base.json",
+//   "compilerOptions": {
+//     "module": "CommonJS",
+//     "removeComments": true,
+// "declarationMap": false,
+// "declaration": false,
+// "emitDecoratorMetadata": true,
+// "experimentalDecorators": true,
+// "allowSyntheticDefaultImports": true,
+// "target": "ES2022",
+// "sourceMap": true,
+// "outDir": "./dist",
+// "baseUrl": "./",
+// "incremental": true,
+// "skipLibCheck": true,
+// "strictNullChecks": true,
+// "forceConsistentCasingInFileNames": true,
+// "noImplicitAny": false,
+// "strictBindCallApply": false,
+// "noFallthroughCasesInSwitch": false,
+// "useDefineForClassFields": false,
+// "paths": {
+//   "@repo/types": ["../../packages/types/src"] // Adjust this path to the actual location of the `types` package
+// }
+//   }
+// }
+
 {
-  "extends": "@repo/typescript-config/base.json",
+  // "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "removeComments": true,
-    "declarationMap": false,
+    "module": "commonjs",
+    "strict": true,
     "declaration": false,
+    "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2022",
+    "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false,
+    "noFallthroughCasesInSwitch": true,
+
+    "paths": {
+      "@repo/types": ["../../packages/types/src"] // Adjust this path to the actual location of the `types` package
+    },
+    "declarationMap": false,
     "useDefineForClassFields": false
-  }
+  },
+  "include": ["src"]
 }

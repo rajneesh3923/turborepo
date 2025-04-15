@@ -6,11 +6,12 @@ import React, { useState } from "react";
 import FlightBookingRequestList from "../flight-requests/components/FlightBookingRequestList";
 import { PaginationState } from "@tanstack/react-table";
 import { useSearchParams } from "next/navigation";
-import { FlightRequestRowsWithPagination } from "frontend/app/client/db/flightRequest";
-import { useFlightRequestsWithQuotations } from "frontend/app/client/queries";
+import { useQuery } from "@tanstack/react-query";
+import { useTRPC } from "../../../../utils/trpc";
 
 export default function FlightBookingRequestPage() {
   const searchParams = useSearchParams();
+  const trpc = useTRPC();
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: searchParams.get("page")
@@ -19,11 +20,12 @@ export default function FlightBookingRequestPage() {
     pageSize: 10,
   });
 
-  const queryRes =
-    useFlightRequestsWithQuotations<FlightRequestRowsWithPagination>({
+  const queryRes = useQuery(
+    trpc.flightRequests.getFlightRequestsWithQuotations.queryOptions({
       page: +pagination.pageIndex + 1,
-      page_size: 10,
-    });
+      page_size: pagination.pageSize,
+    })
+  );
 
   return (
     <Box

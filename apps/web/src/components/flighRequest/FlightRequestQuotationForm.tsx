@@ -52,6 +52,7 @@ import {
   PaginationState,
   useReactTable,
 } from "@tanstack/react-table";
+import { useTRPC } from "../../../utils/trpc";
 
 const flightRequestQuotationSchema = z.object({
   quotations: z.array(
@@ -104,7 +105,7 @@ export default function FlightRequestQuotationForm({
     "primary.600",
   ]);
   const toast = useToast();
-
+  const trpc = useTRPC();
   console.log("flight req id", flightRequestId);
 
   const searchParams = useSearchParams();
@@ -125,17 +126,38 @@ export default function FlightRequestQuotationForm({
     isLoading,
     error,
     isError,
-  } = useQuery({
-    ...flightRequestQuery.single(flightRequestId),
-    enabled: !!flightRequestId,
-  });
+  } = useQuery(
+    trpc.flightRequests.getFlightRequestById.queryOptions({
+      id: flightRequestId,
+    })
+  );
+
+  //   useQuery({
+  //   enabled: !!flightRequestId,
+  //   queryKey: ["flightRequestById", flightRequestId],
+  //   queryFn: () =>
+  //     trpc.flightRequests.getFlightRequestById.queryOptions({
+  //       id: flightRequestId,
+  //     }),
+  // });
+
+  console.log("FLIGHT requ", flightReq);
+
   const {
     data: flightRequestQuotations,
     isLoading: flightReqQuotationLoading,
     error: flightReqQuotationError,
     isError: isFlightReqQuotationError,
     refetch,
-  } = useQuery(flightRequestQuotationQuery.all(flightRequestId, 100, 1));
+  } = useQuery(
+    trpc.flightRequestQuotations.getQuotationsByFlightRequest.queryOptions({
+      flightReqId: flightRequestId,
+      paginationParams: {
+        page: 1,
+        page_size: 10,
+      },
+    })
+  );
 
   console.log("flight QUotations", flightRequestQuotations);
 

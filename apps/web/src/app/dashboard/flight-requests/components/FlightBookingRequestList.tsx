@@ -155,7 +155,6 @@ export default function FlightBookingRequestList({
       columnHelper.accessor("user.name", {
         header: () => "User",
         cell: (info) => {
-          console.log("Row Info", info);
           return (
             <Flex gap={4} alignItems="center">
               <Avatar

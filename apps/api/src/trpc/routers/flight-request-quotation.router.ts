@@ -1,16 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { TrpcInitService } from '../trpc-init.service';
-
-import { FlightRequestQuotationService } from 'src/flight-request-quotation/flight-request-quotation.service';
+import { TrpcInitService } from '../trpc-init.service.js';
 import {
   flightRequestQuotationBody,
   flightRequestQuotationUpdate,
-  getQuotesByFlightRequestSchema,
 } from 'src/flight-request-quotation/@types';
 import z from 'zod';
+import { FlightRequestQuotationService } from '../../flight-request-quotation/flight-request-quotation.service';
+import { paginationParamsSchema } from 'types/pagination';
+
+export const getQuotesByFlightRequestSchema = z.object({
+  flightReqId: z.string(),
+  paginationParams: paginationParamsSchema,
+});
 
 @Injectable()
-export class FlightRequestTrpcRouter {
+export class FlightRequestQuotationTrpcRouter {
   constructor(
     private readonly trpcInitService: TrpcInitService,
     private flightRequestQuotationService: FlightRequestQuotationService,
@@ -19,8 +23,8 @@ export class FlightRequestTrpcRouter {
   flightRequestQuotationRouter = this.trpcInitService.t.router({
     getQuotationsByFlightRequest: this.trpcInitService.authProcedure
       .input(getQuotesByFlightRequestSchema)
-      .query(({ ctx, input }) => {
-        return this.flightRequestQuotationService.getQuotationsByFlightRequest(
+      .query(async ({ ctx, input }) => {
+        return await this.flightRequestQuotationService.getQuotationsByFlightRequest(
           ctx,
           input,
         );
